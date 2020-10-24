@@ -28,13 +28,18 @@
         $debut=($page-1)*$articlepartage;
         echo $debut;
         echo "<br>";
-       
-        
+
+        // activation des erreurs PDO
+        $base->setAttribute( PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION );
+      
+    
 
        
 
-          $select=$base->prepare('select * from articles order by id_article asc limit $debut,$articlepartage');
-          $se=$select->execute(array());
+          // $select=$base->prepare('select * from articles order by id_article asc limit ?,?');
+          // $se=$select->execute(array($debut,$articlepartage));
+          $select=$base->prepare('select * from articles where id_article between ? and ? order by id_article');
+          $se=$select->execute(array($debut,($debut+$articlepartage)));
           var_dump($se);
           echo "<br>";
 
